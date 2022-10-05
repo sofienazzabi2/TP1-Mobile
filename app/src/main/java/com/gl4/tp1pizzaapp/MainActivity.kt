@@ -3,8 +3,10 @@ package com.gl4.tp1pizzaapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.widget.Button
 import android.widget.RadioButton
+import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 
