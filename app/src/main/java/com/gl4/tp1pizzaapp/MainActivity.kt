@@ -1,14 +1,18 @@
 package com.gl4.tp1pizzaapp
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
     lateinit var nomInput: TextInputEditText
@@ -40,10 +44,66 @@ class MainActivity : AppCompatActivity() {
 
         commanderBtn = findViewById(R.id.btnCommander)
 
-        commanderBtn.setOnClickListener {
-            val intent = Intent(this, SplashActivity::class.java)
-            startActivity(intent)
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.SEND_SMS), 111)
+
         }
 
+
+        commanderBtn.setOnClickListener {
+
+            if((!miniRadioButton.isChecked && !maxiRadioButton.isChecked && !moyenneRadioButton.isChecked)
+                || nomInput.text.toString().isEmpty()
+                || prenomInput.text.toString().isEmpty()
+                || adresseInput.text.toString().isEmpty()){
+                val toast = Toast.makeText(applicationContext, "Tous les champs sont obligatoires", Toast.LENGTH_LONG)
+                toast.show()
+            }
+            else{
+                var message : String = "Nom et prénom : ${nomInput.text.toString()} ${prenomInput.text.toString()} \n" +
+                        "Adresse : ${adresseInput.text.toString()} \n" +
+                        "Taille : ${taillePizza()} \n" +
+                        "Ingredients : ${ingredientsPizza()}"
+                sendMessage("+21629083532", message)
+
+                val toast = Toast.makeText(applicationContext, "Commande envoyée", Toast.LENGTH_LONG)
+                toast.show()
+                val intent = Intent(this, SplashActivity::class.java)
+                startActivity(intent)
+            }
+
+
+        }
+
+    }
+
+    private fun sendMessage(num: String, message: String){
+        var sms : SmsManager = SmsManager.getDefault()
+        sms.sendTextMessage(num,"Pizza App",message, null,null)
+    }
+
+    private fun taillePizza() : String{
+        if(miniRadioButton.isChecked){
+            return "Mini"
+        }
+        else if(maxiRadioButton.isChecked){
+            return "Maxi"
+        }
+        else
+            return "Moyenne"
+    }
+
+    private fun ingredientsPizza() : String {
+        var ing :String = ""
+        if(fromageChip.isChecked){
+            ing+= "Fromage "
+        }
+        if(champignonChip.isChecked){
+            ing+= "Champignon "
+        }
+        if(tomateChip.isChecked){
+            ing+= "Tomate "
+        }
+        return ing
     }
 }
