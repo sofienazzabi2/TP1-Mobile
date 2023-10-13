@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                         "Adresse : ${adresseInput.text.toString()} \n" +
                         "Taille : ${taillePizza()} \n" +
                         "Ingredients : ${ingredientsPizza()}"
-                sendMessage("+21629083532", message)
+                sendMessage("+21621962106", message)
 
                 val toast = Toast.makeText(applicationContext, "Commande envoyée", Toast.LENGTH_LONG)
                 toast.show()
