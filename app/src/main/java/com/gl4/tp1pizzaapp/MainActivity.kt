@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 || nomInput.text.toString().isEmpty()
                 || prenomInput.text.toString().isEmpty()
                 || adresseInput.text.toString().isEmpty()){
-                val toast = Toast.makeText(applicationContext, "Tous les champs sont obligatoires", Toast.LENGTH_LONG)
+                val toast = Toast.makeText(applicationContext, "Remplir tous les champs", Toast.LENGTH_LONG)
                 toast.show()
             }
             else{
